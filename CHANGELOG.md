@@ -2,11 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.5] - 2026-03-20
+## [0.1.6] - 2026-03-20
 
-### Added
+### Changed
 
-- Re-export `presetUno` from `unocss-preset-taro-plugin` so business projects can import preset from the same plugin package.
+- Rename package to `unocss-taro-plugin`.
+- Keep plugin as single-responsibility integration layer (remove extra preset re-export).
+- Update repository URL to `git@github.com:CloudyBao/unocss-taro-plugin.git`.
 
 ## [0.1.4] - 2026-03-20
 

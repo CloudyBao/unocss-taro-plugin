@@ -1,7 +1,6 @@
 import path from 'node:path';
-export { presetUno } from 'unocss';
 
-export interface UnoPresetTaroPluginOptions {
+export interface UnoTaroPluginOptions {
   uno?: Record<string, unknown>;
   postcss?: Record<string, unknown>;
   postcssPluginName?: string;
@@ -24,7 +23,7 @@ type TaroPluginContext = {
   modifyBuildAssets?: (callback: (args: { assets: Record<string, any> }) => void) => void;
 };
 
-const PLUGIN_NAME = 'unocss-preset-taro-plugin';
+const PLUGIN_NAME = 'unocss-taro-plugin';
 const DEFAULT_POSTCSS_PLUGIN_NAME = path.join(__dirname, 'postcss-unocss.cjs');
 const DEFAULT_UNO_CSS_IMPORT = '@import "./uno.css";';
 const STYLE_ENTRY_RE = /^app\.(wxss|jxss|acss|ttss|qss|css)$/;
@@ -113,7 +112,7 @@ function resolveUnoWebpackPlugin() {
       return mod.default ?? mod;
     } catch {
       throw new Error(
-        '[unocss-preset-taro-plugin] Cannot resolve UnoCSS webpack plugin. Please install "@unocss/webpack" (or "unocss").',
+        '[unocss-taro-plugin] Cannot resolve UnoCSS webpack plugin. Please install "@unocss/webpack" (or "unocss").',
       );
     }
   }
@@ -184,12 +183,12 @@ function injectUnoCssImport(assets: Record<string, any>, injectCssFile?: string)
   setAssetSource(assets, entry, next);
 }
 
-export default function unocssPresetTaroPlugin(
+export default function unocssTaroPlugin(
   ctx: TaroPluginContext,
-  userOptions: UnoPresetTaroPluginOptions = {},
+  userOptions: UnoTaroPluginOptions = {},
 ) {
-  const options: Required<Pick<UnoPresetTaroPluginOptions, 'injectCssEntry' | 'enableH5WebpackPlugin'>> &
-    UnoPresetTaroPluginOptions = {
+  const options: Required<Pick<UnoTaroPluginOptions, 'injectCssEntry' | 'enableH5WebpackPlugin'>> &
+    UnoTaroPluginOptions = {
     injectCssEntry: false,
     enableH5WebpackPlugin: false,
     ...userOptions,

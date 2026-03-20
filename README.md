@@ -1,6 +1,6 @@
-# unocss-preset-taro-plugin
+# unocss-taro-plugin
 
-用于 **Taro Webpack 构建链路** 的 UnoCSS 插件，目标是提供和 `taro-plugin-tailwind` 类似的接入体验。
+用于 **Taro Webpack 构建链路** 的 UnoCSS 插件，目标是提供类似 `taro-plugin-tailwind` 的接入体验。
 
 ## 参考来源
 
@@ -15,7 +15,7 @@
 ## 安装
 
 ```bash
-pnpm add -D unocss-preset-taro-plugin unocss @unocss/postcss @unocss/webpack
+pnpm add -D unocss-taro-plugin unocss @unocss/postcss @unocss/webpack
 ```
 
 ## 使用
@@ -25,25 +25,19 @@ pnpm add -D unocss-preset-taro-plugin unocss @unocss/postcss @unocss/webpack
 ```ts
 plugins: [
   [
-    'unocss-preset-taro-plugin',
+    'unocss-taro-plugin',
     {
-      // 默认 false，建议配合 src/app.ts 的 import 'uno.css' 使用
       injectCssEntry: false,
-      // 可选：默认使用插件内置代理（兼容 Taro 对 CJS 函数插件的要求）
-      postcssPluginName: '@unocss/postcss',
-      // 透传给 @unocss/postcss
+      postcssPluginName: 'unocss/postcss',
       postcss: {},
-      // 透传给 unocss/webpack
       uno: {},
-      // 默认 false（推荐），h5 下不挂载 @unocss/webpack
-      // 如需 h5 强制启用可设为 true
       enableH5WebpackPlugin: false,
     },
   ],
 ],
 ```
 
-默认（`enableH5WebpackPlugin: false`）建议在 `src/app.ts` 引入你自己的入口样式：
+默认（`enableH5WebpackPlugin: false`）建议在 `src/app.ts` 引入入口样式：
 
 ```ts
 import './styles/uno.css'
@@ -55,40 +49,25 @@ import './styles/uno.css'
 @unocss all;
 ```
 
-如果你设置了 `enableH5WebpackPlugin: true`，也可以继续使用：
-
-```ts
-import 'uno.css'
-```
-
 创建 `uno.config.ts`：
 
 ```ts
-import { defineConfig } from 'unocss'
-import { presetUno } from 'unocss-preset-taro-plugin'
+import { defineConfig, presetWind3 } from 'unocss'
 
 export default defineConfig({
-  presets: [presetUno()],
+  presets: [presetWind3()],
 })
 ```
-
-> `presetUno` 由本插件透出，方便业务侧统一从一个包导入接入能力与默认 preset。
 
 ## 选项
 
 ```ts
-interface UnoPresetTaroPluginOptions {
-  // 传给 unocss/webpack
+interface UnoTaroPluginOptions {
   uno?: Record<string, unknown>
-  // 传给 @unocss/postcss
   postcss?: Record<string, unknown>
-  // 默认：插件内置 postcss 代理；传 @unocss/postcss / unocss/postcss 也会自动兼容
   postcssPluginName?: string
-  // 默认 false
   injectCssEntry?: boolean
-  // 指定注入文件，比如 app.wxss / app.jxss
   injectCssFile?: string
-  // 默认 false，是否在 h5 构建也启用 @unocss/webpack
   enableH5WebpackPlugin?: boolean
 }
 ```
@@ -100,7 +79,3 @@ interface UnoPresetTaroPluginOptions {
 - Contributing: [CONTRIBUTING.md](./CONTRIBUTING.md)
 - Code of Conduct: [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)
 - Security: [SECURITY.md](./SECURITY.md)
-
-## License
-
-MIT
